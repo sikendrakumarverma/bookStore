@@ -7,10 +7,10 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    orderedAt: {
-        type: String,
-        required: true
-    },
+    // orderedAt: {
+    //     type: Date,
+    //     required: true
+    // },
     bookPrice: {
         type: Number,
         required: true

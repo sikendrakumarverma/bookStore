@@ -41,9 +41,8 @@ const createOrder = async function (req, res) {
 
 const getOrder = async (req, res) => {
     try {
-        let queryData= req.query
 
-        let orderDetails = await orderModels.find({ isDeleted: false }).sort({bookPrice:1})
+        let orderDetails = await orderModels.find({ isDeleted: false }).sort({bookPrice:1}).sort({createdAt:-1})
         if (orderDetails.length == 0) return res.status(404).send({ status: false, message: "No order found" });
         return res.status(200).send({ status: true, message: "All Ordered list", "no. of Ordered": orderDetails.length, data: orderDetails });
 
@@ -51,7 +50,27 @@ const getOrder = async (req, res) => {
         return res.status(500).send({ status: false, message: err.message });
     }
 }
+const getOrdersByQ = async (req, res) => {
+    try {
+        let findData = req.query;
+        console.log( findData.bookName)
+        const {bookName} = findData
+        
+        if(bookName ==='' || bookName == "null"){
+            return res.status(400).send({ status: false, message: "Please enter data " })
+        }
+       
+        
+
+            let bookDetails = await orderModels.find(findData).sort({bookPrice:1}).sort({createdAt:-1})
+            if (bookDetails.length == 0) return res.status(404).send({ status: false, message: "No order found" });
+            return res.status(200).send({ status: true, message: "All Orders list", "totalOrders": bookDetails.length, data: bookDetails });
+        
+    } catch (err) {
+        return res.status(500).send({ status: false, message: err.message });
+    }
+};
 
 
 
-module.exports = { createOrder, getOrder }
+module.exports = { createOrder, getOrder,getOrdersByQ }

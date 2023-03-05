@@ -4,7 +4,7 @@ import Table from "react-bootstrap/Table";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SERVER_URI } from '../config/keys';
 
-function SearchBooksData() {
+function SearchOrdersData() {
 
     let location = useLocation();
     let bookData = location.state;
@@ -23,7 +23,7 @@ console.log(bookData)
 
 
     function getBooksData() {
-        axios.get(`${SERVER_URI}/books?name=${bookData}`, {
+        axios.get(`${SERVER_URI}/getOrdersByQ?bookName=${bookData}`, {
             headers: {
                 "x-api-key": localStorage.getItem("token")
             }
@@ -41,16 +41,16 @@ console.log(bookData)
 
     return (
         <div >
-            <h1> Search Books List</h1>
+            <h1> Search Orders List</h1>
+            {/* <p> Number of Order={response.data.totalOrders}</p> */}
             <div className="col-sm-10 offset-sm-1">
                 <Table striped bordered hover>
                     <thead>
                         <tr>
-                            <th>BooksId</th>
+                            <th>OrderedId</th>
                             <th>Name</th>
-                            <th>Image</th>
                             <th>Price</th>
-                            <th>ReleasedAt</th>
+                            <th>OrderedAt</th>
                            
                         </tr>
                     </thead>
@@ -58,10 +58,9 @@ console.log(bookData)
                         {data.map((item) =>
                             <tr>
                                 <td>{item._id}</td>
-                                <td>{item.name}</td>
-                                <td><img style={{ width: 100 }} src={item.bookCover} /></td>
-                                <td>{item.price}</td>
-                                <td>{item.releasedAt}</td>
+                                <td>{item.bookName}</td>
+                                <td>{item.bookPrice}</td>
+                                <td>{item.createdAt}</td>
                               
                             </tr>)
                         }
@@ -71,4 +70,4 @@ console.log(bookData)
         </div>
     )
 }
-export default SearchBooksData;
+export default SearchOrdersData;

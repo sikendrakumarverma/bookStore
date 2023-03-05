@@ -11,15 +11,10 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 export function Header() {
-    const[searchData,setSearchData]= useState("");
+    const [searchData, setSearchData] = useState("");
 
     let navigate = useNavigate();
-    let userEmail = localStorage.getItem("userEmail")
-
-    function SearchBook(){
-      console.log("click")
-      navigate("/searchBook",{state: searchData})
-    }
+    let userEmail = localStorage.getItem("loggedInUser")
 
     function Logout() {
         localStorage.clear();
@@ -29,17 +24,17 @@ export function Header() {
             title: 'Logged Out!',
             showConfirmButton: false,
             showClass: {
-              popup: 'animate__animated animate__fadeInDown'
+                popup: 'animate__animated animate__fadeInDown'
             },
             hideClass: {
-              popup: 'animate__animated animate__fadeOutUp'
+                popup: 'animate__animated animate__fadeOutUp'
             },
             timer: 2500
-          }).then(() => {
-            navigate("/login")
-            window.location.reload()
-            })
-        }
+        }).then(() => {
+            navigate("/")
+            //window.location.reload()
+        })
+    }
 
     return (
         <div>
@@ -54,28 +49,15 @@ export function Header() {
                     {
                         localStorage.getItem('token') ?
                             <>
-                                <Link to='/CreateBook' className="space">Create Book</Link>
-                                <Link to='/GetAllBooksList' className="space">All Books List</Link>
+                                <Link to='/CreateBook' className="space">Add Book</Link>
+
                             </> : <>
+                                <Link to='/GetAllOrdered' className="space">All Ordered</Link>
                                 <Link to='/register' className="space">Register</Link>
-                                <Link to='/login' className="space">Login</Link>
+                                {/* <Link to='/login' className="space">Login</Link> */}
                             </>
                     }
                 </Nav>
-                {localStorage.getItem('token') ?
-                <div>
-                <Form className="d-flex">
-                 
-                    <Form.Control
-                        type="search"
-                        placeholder="Search Book By Title"
-                        className="me-2"
-                        aria-label="Search"
-                        onChange={(e)=>{setSearchData(e.target.value)}}
-                    />
-                    <Button onClick={()=>{SearchBook()}} variant="outline-success">Search</Button>
-                </Form> 
-                </div> :null}
 
                 {localStorage.getItem('token') ?
                     <div className="logiContent" >

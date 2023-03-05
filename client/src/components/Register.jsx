@@ -1,77 +1,78 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
- import { useNavigate } from 'react-router-dom'
- import { SERVER_URI } from '../config/keys';
- import Swal from 'sweetalert2';
+import * as React from 'react';
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Button, Link, Typography } from '@mui/material';
+import { Container, Stack } from '@mui/system';
+import axios from "axios";
+import Swal from 'sweetalert2'
+import { SERVER_URI } from '../config/keys';
 
-// import {Header} from './Header'
 
-const backendServer = `${SERVER_URI}/register`
+export default function SignUp() {
 
-function Register() {
     let navigate = useNavigate();
 
-   useEffect(() => {
-    if (localStorage.getItem('token')) {
-         navigate("/CreateBook")
-    }
-}, [])
+    const [values, setValues] = useState({
+        name: '',
+        phone:'',
+        email: '',
+        password: '',
+        address:'',
+        showPassword: false,
+    });
 
-    const inputData = {
-        "title": "",
-        "name": "",
-        "phone": "",
-        "password": "",
-        "email": "",
-        "street": "",
-        "city": "",
-        "pincode": ""
-    }
-    const [state, setState] = useState(inputData)
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
 
-    const setinput = (e) => {
-        let { name, value } = e.target
-        setState({ ...state, [name]: value })
-    }
+    const handleClickShowPassword = () => {
+        setValues({
+            ...values,
+            showPassword: !values.showPassword,
+        });
+    };
 
-    const correctRequestBody = {
-        "title": state.title,
-        "name": state.name,
-        "phone": state.phone,
-        "password": state.password,
-        "email": state.email,
-        "address": {
-            "street": state.street,
-            "city": state.city,
-            "pincode": state.pincode
-        }
-    }
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
 
-    function signUp() {
-        axios.post(backendServer, correctRequestBody)
+    const backendServer = `${SERVER_URI}/register`
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        axios.post(backendServer, values)
             .then((response) => {
                 console.log("response", response)
-                //alert(`success : ${response.data.message}`)
                 Swal.fire({
                     // position: 'top-end',
                     icon: 'success',
                     title: response.data.message,
-                    showConfirmButton: true,
+                    showConfirmButton: false,
                     showClass: {
                         popup: 'animate__animated animate__fadeInDown'
                     },
                     hideClass: {
                         popup: 'animate__animated animate__fadeOutUp'
-                    }
-                    // timer: 2500
+                    },
+                    timer: 2500
                 }).then(() => {
+                   
                     navigate("/login");
                 })
-                
+
             })
             .catch((error) => {
                 console.log("error", error.response.data.message)
-                //alert(`Error: ${error.response.data.message}`)
+                // alert(`Error: ${error.response.data.message}`)
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -82,37 +83,127 @@ function Register() {
                         popup: 'animate__animated animate__fadeOutUp'
                     },
                     text: error.response.data.message
-                  })
+                })
+                window.location.reload();
             })
+    };
+
+    function Login(e) {
+        e.preventDefault();
+        navigate('/login')
     }
 
-
     return (
-        <>
-            {/* <Header /> */}
-            <div className="col-sm-6 offset-sm-3">
-                <h1>Register Page</h1>
-                <input type="text" name='title' value={state.title} onChange={(e) => setinput(e)} className="form-control" placeholder="title" />
-                <br />
-                <input type="text" name='name' value={state.name} onChange={(e) => setinput(e)} className="form-control" placeholder="name" />
-                <br />
-                <input type="text" name='phone' value={state.phone} onChange={(e) => setinput(e)} className="form-control" placeholder="phone" />
-                <br />
-                <input type="text" name='email' value={state.email} onChange={(e) => setinput(e)} className="form-control" placeholder="email" />
-                <br />
-                <input type="password" name='password' value={state.password} onChange={(e) => setinput(e)} className="form-control" placeholder="password" />
-                <br />
-                <input type="text" name='street' value={state.street} onChange={(e) => setinput(e)} className="form-control" placeholder="street" />
-                <br />
-                <input type="text" name='city' value={state.city} onChange={(e) => setinput(e)} className="form-control" placeholder="city" />
-                <br />
-                <input type="text" name='pincode' value={state.pincode} onChange={(e) => setinput(e)} className="form-control" placeholder="pincode" />
-                <br />
-                <button onClick={signUp} className="btn btn-primary">Sign Up</button>
+        <React.Fragment>
+            <Container maxWidth="sm">
+                <Box container direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}
+                    sx={{ bgcolor: '#fff4', mt: '100px', pb: '50px', boxShadow: 10, borderRadius: '10px' }}>
+                    <Stack
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={3}
+                    >
+                        <Typography sx={{ pt: '20px', ml: '30px' }}>
+                            <h1>Create An Account</h1>
+                        </Typography>
 
-            </div>
-        </>
+                        <FormControl sx={{ m: 1, width: '40ch' }} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-phone_number">Name</InputLabel>
+                            <Input
+                                id="standard-adornment-email"
+                                type='text'
+                                value={values.name}
+                                onChange={handleChange('name')}
+                                // endAdornment={
+                                //     <InputAdornment position="end">
+                                //         <AccountCircle />
+                                //     </InputAdornment>
+                                // }
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: '40ch' }} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-phone_number">Phone</InputLabel>
+                            <Input
+                                id="standard-adornment-email"
+                                type='text'
+                                value={values.phone}
+                                onChange={handleChange('phone')}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: '40ch' }} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-phone_number">Email</InputLabel>
+                            <Input
+                                id="standard-adornment-email"
+                                type='text'
+                                value={values.email}
+                                onChange={handleChange('email')}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: '40ch' }} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                            <Input
+                                id="standard-adornment-password"
+                                type={values.showPassword ? 'text' : 'password'}
+                                value={values.password}
+                                onChange={handleChange('password')}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                        >
+                                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: '40ch' }} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-phone_number">Address</InputLabel>
+                            <Input
+                                id="standard-adornment-email"
+                                type='text'
+                                value={values.address}
+                                onChange={handleChange('address')}
+                                // endAdornment={
+                                //     <InputAdornment position="end">
+                                //         <AccountCircle />
+                                //     </InputAdornment>
+                                // }
+                            />
+                        </FormControl>
+                        <FormControl onClick={handleSubmit} sx={{ width: '50%', height: '40px', mt: '50px' }}>
+                            <Button variant="contained" sx={{ bgcolor: 'green' }}>
+                                SignUp
+                            </Button>
+                        </FormControl>
+                        <div>
+                            <a href='/login' onClick={Login} >
+                                <Button variant="text" >
+                                    Already A user? Login.
+                                </Button>
+                            </a>
+                           
+                        </div>
+                    </Stack>
+                </Box>
+            </Container>
+        </React.Fragment>
     )
 }
-
-export default Register
