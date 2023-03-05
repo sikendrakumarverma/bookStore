@@ -33,7 +33,7 @@ function AllBooks() {
 
   return (
     <div>
-      <h1> All Books List</h1>
+      <h1 style={{color:"white"}}> All Books List</h1>
       <br />
       <div >
 

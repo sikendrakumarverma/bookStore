@@ -53,7 +53,7 @@ const getOrder = async (req, res) => {
 const getOrdersByQ = async (req, res) => {
     try {
         let findData = req.query;
-        console.log( findData.bookName)
+        //console.log( findData.bookName)
         const {bookName} = findData
         
         if(bookName ==='' || bookName == "null"){

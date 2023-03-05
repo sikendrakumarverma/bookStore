@@ -1,3 +1,3 @@
 module.exports = {
-    SERVER_URI: "https://mernbookmanagement.vercel.app/api"
+    SERVER_URI: "https://mernbookmanagement.vercel.app"
 }

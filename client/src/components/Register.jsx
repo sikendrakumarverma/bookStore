@@ -100,7 +100,7 @@ export default function SignUp() {
                     justifyContent="center"
                     alignItems="center"
                     spacing={2}
-                    sx={{ bgcolor: '#fff4', mt: '100px', pb: '50px', boxShadow: 10, borderRadius: '10px' }}>
+                    sx={{ bgcolor: '#ffffff', mt: '100px', pb: '50px', boxShadow: 10, borderRadius: '10px' }}>
                     <Stack
                         container
                         direction="column"

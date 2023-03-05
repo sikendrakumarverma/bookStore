@@ -41,8 +41,8 @@ console.log(bookData)
 
     return (
         <div >
-            <h1> Search Books List</h1>
-            <div className="col-sm-10 offset-sm-1">
+            <h1 style={{ color: "white" }}> Search Books List</h1>
+            <div className="col-sm-10 offset-sm-1" style={{ background: "skyblue" }}>
                 <Table striped bordered hover>
                     <thead>
                         <tr>

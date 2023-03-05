@@ -37,8 +37,8 @@ export function Header() {
     }
 
     return (
-        <div>
-            <Navbar bg="dark" expand="lg">
+        <div style={{background:"#6E6E6E"}}>
+            <Navbar bg="light-white" expand="lg">
 
                 <Navbar.Brand href="#"  > Navbar </Navbar.Brand>
 

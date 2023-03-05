@@ -52,7 +52,7 @@ const createBooks = async function (req, res) {
 const getBooks = async (req, res) => {
     try {
         let findData = req.query;
-        //console.log(findData)
+       //console.log(findData)
         const {name} = findData
         if (Object.keys(findData).length === 0) {
             let bookDetails = await bookModels.find({isDeleted:false}).sort({price: 1})
@@ -65,7 +65,7 @@ const getBooks = async (req, res) => {
        
         
 
-            let bookDetails = await bookModels.find(findData).sort({price:1})
+            let bookDetails = await bookModels.find({name:{$regex:name}}).sort({price:1})
             if (bookDetails.length == 0) return res.status(404).send({ status: false, message: "No books found" });
             return res.status(200).send({ status: true, message: "All Books list", "totalBooks": bookDetails.length, data: bookDetails });
         

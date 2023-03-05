@@ -23,7 +23,7 @@ function App() {
       <BrowserRouter>
         {/* {userToken ? undefined : <Header />} */}
         <Header />
-        <h1>Welcome To In MERN Based Book Store</h1>
+        <h1 style={{color:"white"}}>Welcome To In MERN Based Book Store</h1>
         <Routes>
           <Route path='/' element={<AllBooks />} >  </Route>
           <Route path='register' element={<Register />} >  </Route>
